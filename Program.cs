@@ -12,13 +12,16 @@ builder.Services.AddSwaggerGen();
 
 builder.Services.AddCors(options =>
 {
-    options.AddPolicy("AllowFrontend",
-        policy =>
-        {
-            policy.WithOrigins("https://webvi.netlify.app") // <-- apna frontend URL
-                  .AllowAnyHeader()
-                  .AllowAnyMethod();
-        });
+    options.AddPolicy("AllowFrontend", policy =>
+    {
+        policy.WithOrigins(
+            "https://webvi.netlify.app",   // <-- apna frontend ka actual domain
+            "http://localhost:5500",
+            "http://127.0.0.1:5500"
+        )
+        .AllowAnyHeader()
+        .AllowAnyMethod();
+    });
 });
 
 // Register your service here 👇
