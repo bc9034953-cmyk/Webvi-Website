@@ -22,7 +22,8 @@ builder.Services.AddCors(options =>
                 "http://127.0.0.1:5500"
             )
             .AllowAnyHeader()
-            .AllowAnyMethod();
+            .AllowAnyMethod()
+              .AllowCredentials(); 
     });
 });
 builder.Services.AddScoped<WebviService>();
@@ -37,6 +38,9 @@ if (app.Environment.IsDevelopment())
 
 
 app.UseCors("AllowFrontend");
+app.UseHttpsRedirection();                  
+app.UseAuthorization();                     
+app.MapControllers();
 
 app.UseHttpsRedirection();
 app.UseAuthorization();
