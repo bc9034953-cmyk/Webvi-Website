@@ -14,17 +14,17 @@ builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowFrontend", policy =>
     {
-        policy.WithOrigins(
-            "https://webvi.netlify.app",   // <-- apna frontend ka actual domain
-            "http://localhost:5500",
-            "http://127.0.0.1:5500"
-        )
-        .AllowAnyHeader()
-        .AllowAnyMethod();
+        policy
+            .WithOrigins(
+                "https://webvi.in/",             
+                "http://localhost:5500",
+                "https://webvi.netlify.app",
+                "http://127.0.0.1:5500"
+            )
+            .AllowAnyHeader()
+            .AllowAnyMethod();
     });
 });
-
-// Register your service here 👇
 builder.Services.AddScoped<WebviService>();
 
 var app = builder.Build();
