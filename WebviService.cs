@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Http.HttpResults;
-using System.Net;
+﻿using System.Net;
 using System.Net.Mail;
 using WebviAPI.IServices;
 using WebviAPI.Model;
@@ -15,7 +14,7 @@ namespace WebviAPI.Services
             _config = config;
         }
 
-        public void SandEmail(ContantFrom form)
+        public void SandEmail(ContantFrom from)
         {
             var fromEmail = _config["EmailSettings:From"];
             var fromPassword = _config["EmailSettings:Password"];
@@ -23,17 +22,29 @@ namespace WebviAPI.Services
 
             var message = new MailMessage(fromEmail, toEmail)
             {
-                Subject = $"New Contact Message from {form.Name}",
-                Body = $"Name: {form.Name}\nEmail: {form.Email}\nMessage: {form.Message}"
+                Subject = $"New Contact Message from {from.Name}",
+                Body = $"Name: {from.Name}\nEmail: {from.Email}\nMessage: {from.Message}"
             };
 
-            using var smtp = new SmtpClient("smtp.gmail.com", 587)
+            using var smtp = new SmtpClient("smtp.hostinger.com", 465)
             {
                 EnableSsl = true,
                 Credentials = new NetworkCredential(fromEmail, fromPassword)
             };
 
-            smtp.Send(message);
+            SmtpClient smtps = new SmtpClient("smtp.hostinger.com", 465);
+            smtp.Credentials = new NetworkCredential("hr@webvi.in", "},");
+            smtp.EnableSsl = true;
+            smtp.Timeout = 10000;
+
+            MailMessage messages = new MailMessage();
+            message.From = new MailAddress("hr@webvi.in");
+            message.To.Add("hr@webvi.in");
+            message.Subject = $"New message from {from.Name}";
+            message.Body = $"Name: {from.Name}\nEmail: {from.Email}\nMessage: {from.Message}";
+
+            // smtp.Send(message);
+
         }
     }
 }
